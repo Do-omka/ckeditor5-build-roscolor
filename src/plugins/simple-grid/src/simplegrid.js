@@ -6,30 +6,30 @@ import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
 import { add } from '@ckeditor/ckeditor5-utils/src/translation-service';
 import '../theme/style.css';
 
-export default class SimpleBox extends Plugin {
+export default class SimpleGrid extends Plugin {
     static get requires() {
-        return [ SimpleBoxEditing, SimpleBoxUI ];
+        return [ SimpleGridEditing, SimpleGridUI ];
     }
 	 
 	static get pluginName() {
-		return 'SimpleBox';
+		return 'SimpleGrid';
 	}
 }
 
-class SimpleBoxUI extends Plugin {
+class SimpleGridUI extends Plugin {
     init() {
         const editor = this.editor;
         const t = editor.t;
 
         add( 'ru', {
-            'Simple Box': [ 'Колонки' ]
+            'Simple Grid': [ 'Колонки' ]
         } );
 
-        // The "simpleBox" button must be registered among the UI components of the editor
+        // The "simpleGrid" button must be registered among the UI components of the editor
         // to be displayed in the toolbar.
-        editor.ui.componentFactory.add( 'simpleBox', locale => {
+        editor.ui.componentFactory.add( 'simpleGrid', locale => {
             // The state of the button will be bound to the widget command.
-            const command = editor.commands.get( 'insertSimpleBox' );
+            const command = editor.commands.get( 'insertSimpleGrid' );
 
             // The button will be an instance of ButtonView.
             const buttonView = new ButtonView( locale );
@@ -37,7 +37,7 @@ class SimpleBoxUI extends Plugin {
             buttonView.set( {
                 // The t() function helps localize the editor. All strings enclosed in t() can be
                 // translated and change when the language of the editor changes.
-                label: t( 'Simple Box' ),
+                label: t( 'Simple Grid' ),
                 withText: false,
                 tooltip: true,
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 768 768"><path d="M384 77h269a38 38 0 0 1 38 38v538a38 38 0 0 1-38 38H384a38 38 0 0 0 0 77h269a115 115 0 0 0 115-115V115A115 115 0 0 0 653 0H384a38 38 0 0 0 0 77zm0-77H115A115 115 0 0 0 0 115v538a115 115 0 0 0 115 115h269a38 38 0 0 0 0-77H115a38 38 0 0 1-38-38V115a38 38 0 0 1 38-38h269a38 38 0 0 0 0-77zm-38 38v692a38 38 0 0 0 76 0V38a38 38 0 0 0-76 0z"/></svg>'
@@ -47,14 +47,14 @@ class SimpleBoxUI extends Plugin {
             buttonView.bind( 'isOn', 'isEnabled' ).to( command, 'value', 'isEnabled' );
 
             // Execute the command when the button is clicked (executed).
-            this.listenTo( buttonView, 'execute', () => editor.execute( 'insertSimpleBox' ) );
+            this.listenTo( buttonView, 'execute', () => editor.execute( 'insertSimpleGrid' ) );
 
             return buttonView;
         } );
     }
 }
 
-class SimpleBoxEditing extends Plugin {
+class SimpleGridEditing extends Plugin {
     static get requires() {
         return [ Widget ];
     }
@@ -63,13 +63,13 @@ class SimpleBoxEditing extends Plugin {
         this._defineSchema();
         this._defineConverters();
 
-        this.editor.commands.add( 'insertSimpleBox', new InsertSimpleBoxCommand( this.editor ) );
+        this.editor.commands.add( 'insertSimpleGrid', new InsertSimpleGridCommand( this.editor ) );
     }
 
     _defineSchema() {
         const schema = this.editor.model.schema;
 
-        schema.register( 'simpleBox', {
+        schema.register( 'simpleGrid', {
             // Behaves like a self-contained object (e.g. an image).
             isObject: true,
 
@@ -77,18 +77,18 @@ class SimpleBoxEditing extends Plugin {
             allowWhere: '$block'
         } );
 
-        schema.register( 'simpleBoxDescription', {
+        schema.register( 'simpleGridContent', {
             // Cannot be split or left by the caret.
             isLimit: true,
 
-            allowIn: 'simpleBox',
+            allowIn: 'simpleGrid',
 
             // Allow content which is allowed in the root (e.g. paragraphs).
             allowContentOf: '$root'
         } );
 
         schema.addChildCheck( ( context, childDefinition ) => {
-            if ( context.endsWith( 'simpleBoxDescription' ) && childDefinition.name == 'simpleBox' ) {
+            if ( context.endsWith( 'simpleGridContent' ) && childDefinition.name == 'simpleGrid' ) {
                 return false;
             }
         } );
@@ -97,50 +97,50 @@ class SimpleBoxEditing extends Plugin {
     _defineConverters() {
         const conversion = this.editor.conversion;
 
-        // <simpleBox> converters
+        // <simpleGrid> converters
         conversion.for( 'upcast' ).elementToElement( {
-            model: 'simpleBox',
+            model: 'simpleGrid',
             view: {
-                name: 'section',
-                classes: 'simple-box'
+                name: 'div',
+                classes: 'simple-grid'
             }
         } );
         conversion.for( 'dataDowncast' ).elementToElement( {
-            model: 'simpleBox',
+            model: 'simpleGrid',
             view: {
-                name: 'section',
-                classes: 'simple-box'
+                name: 'div',
+                classes: 'simple-grid'
             }
         } );
         conversion.for( 'editingDowncast' ).elementToElement( {
-            model: 'simpleBox',
+            model: 'simpleGrid',
             view: ( modelElement, { writer: viewWriter } ) => {
-                const section = viewWriter.createContainerElement( 'section', { class: 'simple-box' } );
+                const div = viewWriter.createContainerElement( 'div', { class: 'simple-grid' } );
 
-                return toWidget( section, viewWriter, { label: 'simple box widget' } );
+                return toWidget( div, viewWriter, { label: 'Simple Grid widget' } );
             }
         } );
 
-        // <simpleBoxDescription> converters
+        // <simpleGridContent> converters
         conversion.for( 'upcast' ).elementToElement( {
-            model: 'simpleBoxDescription',
+            model: 'simpleGridContent',
             view: {
                 name: 'div',
-                classes: 'simple-box-description'
+                classes: 'simple-grid-content'
             }
         } );
         conversion.for( 'dataDowncast' ).elementToElement( {
-            model: 'simpleBoxDescription',
+            model: 'simpleGridContent',
             view: {
                 name: 'div',
-                classes: 'simple-box-description'
+                classes: 'simple-grid-content'
             }
         } );
         conversion.for( 'editingDowncast' ).elementToElement( {
-            model: 'simpleBoxDescription',
+            model: 'simpleGridContent',
             view: ( modelElement, { writer: viewWriter } ) => {
                 // Note: You use a more specialized createEditableElement() method here.
-                const div = viewWriter.createEditableElement( 'div', { class: 'simple-box-description' } );
+                const div = viewWriter.createEditableElement( 'div', { class: 'simple-grid-content' } );
 
                 return toWidgetEditable( div, viewWriter );
             }
@@ -148,39 +148,39 @@ class SimpleBoxEditing extends Plugin {
     }
 }
 
-class InsertSimpleBoxCommand extends Command {
+class InsertSimpleGridCommand extends Command {
     execute() {
         this.editor.model.change( writer => {
-            // Insert <simpleBox>*</simpleBox> at the current selection position
+            // Insert <simpleGrid>*</simpleGrid> at the current selection position
             // in a way that will result in creating a valid model structure.
-            this.editor.model.insertContent( createSimpleBox( writer ) );
+            this.editor.model.insertContent( createSimpleGrid( writer ) );
         } );
     }
 
     refresh() {
         const model = this.editor.model;
         const selection = model.document.selection;
-        const allowedIn = model.schema.findAllowedParent( selection.getFirstPosition(), 'simpleBox' );
+        const allowedIn = model.schema.findAllowedParent( selection.getFirstPosition(), 'simpleGrid' );
 
         this.isEnabled = allowedIn !== null;
     }
 }
 
-function createSimpleBox( writer ) {
+function createSimpleGrid( writer ) {
     // Define a number of columns in the container.
     const columns = 2;
 
-    const simpleBox = writer.createElement( 'simpleBox' );
+    const simpleGrid = writer.createElement( 'simpleGrid' );
 
     for ( let i = 0; i < columns; i++ ) {
-        const column = writer.createElement( 'simpleBoxDescription' );
+        const column = writer.createElement( 'simpleGridContent' );
 
-        writer.append( column, simpleBox );
+        writer.append( column, simpleGrid );
 
         // There must be at least one paragraph for the description to be editable.
         // See https://github.com/ckeditor/ckeditor5/issues/1464.
         writer.appendElement( 'paragraph', column );
     }
 
-    return simpleBox;
+    return simpleGrid;
 }

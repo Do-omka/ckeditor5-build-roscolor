@@ -23,7 +23,7 @@ import List from '@ckeditor/ckeditor5-list/src/list.js';
 import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed.js';
 import MediaEmbedToolbar from '@ckeditor/ckeditor5-media-embed/src/mediaembedtoolbar.js';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph.js';
-import SimpleBox from './plugins/simple-box/src/simplebox.js';
+import SimpleGrid from './plugins/simple-grid/src/simplegrid.js';
 import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation.js';
 
@@ -51,7 +51,7 @@ Editor.builtinPlugins = [
 	MediaEmbed,
 	MediaEmbedToolbar,
 	Paragraph,
-	SimpleBox,
+	SimpleGrid,
 	SourceEditing,
 	TextTransformation
 ];
@@ -74,7 +74,7 @@ Editor.defaultConfig = {
 			'imageInsert',
 			'mediaEmbed',
 			'|',
-			'SimpleBox',
+			'SimpleGrid',
 			'htmlEmbed',
 			'|',
 			'undo',

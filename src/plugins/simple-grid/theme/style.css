@@ -1,4 +1,4 @@
-.simple-box {
+.simple-grid {
 	padding: 10px;
 	margin: 1em 0;
 
@@ -9,7 +9,7 @@
 	display: flex;
 }
 
-.simple-box > .ck-editor__nested-editable.simple-box-description {
+.simple-grid > .ck-editor__nested-editable.simple-grid-content {
 	padding: 10px;
 	margin: 0;
 
