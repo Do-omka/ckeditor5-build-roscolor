@@ -2,7 +2,7 @@
   "name": "@doomka/ckeditor5-build-roscolor",
   "author": "Doomka",
   "description": "A custom CKEditor 5 build made by the CKEditor 5 online builder.",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "./build/ckeditor.js",
   "devDependencies": {
