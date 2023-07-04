@@ -58,7 +58,7 @@ Editor.builtinPlugins = [
 
 // Editor configuration.
 Editor.defaultConfig = {
-	language: 'en',
+	language: 'ru',
 	toolbar: {
 		items: [
 			'heading',
